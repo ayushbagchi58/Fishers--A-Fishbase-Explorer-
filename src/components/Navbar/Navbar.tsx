@@ -21,6 +21,15 @@ import { FaFish } from "react-icons/fa";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useThemeMode } from "../theme-provider";
 
+// Move navLinks outside component to prevent recreation
+const navLinks = [
+  { href: "/", label: "Home", drop: false },
+  { href: "/about", label: "About Us", drop: false },
+  { href: "/search", label: "Search", drop: false },
+  { href: "/country", label: "By Country", drop: false },
+  { href: "/family", label: "By Family", drop: false },
+];
+
 export default function Navbar() {
   const theme = useTheme();
   const { mode, toggleMode } = useThemeMode();
@@ -30,28 +39,20 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
-    let lastY = window.scrollY;
+    let ticking = false;
     const handleScroll = () => {
-      const currentY = window.scrollY;
-      setScrolled(currentY > 50);
-      if (currentY > lastY && currentY > 80) {
-        // We were setting scrollDir here, but never using it → remove this block
-      } else {
-        // Same as above — unused
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const currentY = window.scrollY;
+          setScrolled(currentY > 50);
+          ticking = false;
+        });
+        ticking = true;
       }
-      lastY = currentY;
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const navLinks = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About Us" },
-    { href: "/search", label: "Search" },
-    { href: "/country", label: "By Country" },
-    { href: "/family", label: "By Family" },
-  ];
 
   return (
     <motion.div

@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../Redux/store/store";
-import { setCountry, setFamily } from "../Redux/slice/fishSlice"; // Removed setSearch and fetchFish
+import { setCountry, setFamily } from "../Redux/slice/fishSlice";
 import {
   Container,
   Typography,
@@ -16,28 +16,29 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { FaFish } from "react-icons/fa";
 import { useRouter } from "next/navigation";
 
+// Move static arrays outside component to prevent recreation
+const countries = ["Canada", "Egypt", "UK", "India", "Australia"];
+const families = ["Salmonidae", "Esocidae", "Cichlidae", "Gadidae", "Cyprinidae", "Latidae"];
+
 export default function SearchSec() {
   const dispatch = useDispatch<AppDispatch>();
-  const { search, country, family } = useSelector((state: RootState) => state.fish); // Only using these
+  const { search, country, family } = useSelector((state: RootState) => state.fish);
   const [localSearch, setLocalSearch] = useState(search);
   const router = useRouter();
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
-  const handleSearchClick = () => {
+  const handleSearchClick = useCallback(() => {
     router.push("/search");
-  };
+  }, [router]);
 
-  const handleCountryClick = (c: string) => {
+  const handleCountryClick = useCallback((c: string) => {
     dispatch(setCountry(c));
-  };
+  }, [dispatch]);
 
-  const handleFamilyClick = (f: string) => {
+  const handleFamilyClick = useCallback((f: string) => {
     dispatch(setFamily(f));
-  };
-
-  const countries = ["Canada", "Egypt", "UK", "India", "Australia"];
-  const families = ["Salmonidae", "Esocidae", "Cichlidae", "Gadidae", "Cyprinidae", "Latidae"];
+  }, [dispatch]);
 
   const showHint = !localSearch && !country && !family;
 

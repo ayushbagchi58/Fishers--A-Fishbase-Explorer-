@@ -57,7 +57,6 @@ export default function WhyChooseUs() {
         <Grid container spacing={6} alignItems="center" wrap="nowrap">
           
           <Grid
-            item
             sx={{
               flex: { xs: "0 0 40%", md: "0 0 40%" },
               minWidth: { xs: 120, md: "auto" },
@@ -82,7 +81,7 @@ export default function WhyChooseUs() {
           </Grid>
 
        
-          <Grid item sx={{ flex: { xs: "0 0 60%", md: "0 0 60%" } }}>
+          <Grid sx={{ flex: { xs: "0 0 60%", md: "0 0 60%" } }}>
             <motion.div {...fadeUp(0.3)}>
               <Typography
                 variant="h4"
@@ -101,7 +100,7 @@ export default function WhyChooseUs() {
 
             <Grid container spacing={3}>
               {features.map((feature, i) => (
-                <Grid item size={{ xs: 12, sm: 6 }} key={i}>
+                <Grid size={{ xs: 12, sm: 6 }} key={i}>
                   <motion.div {...fadeUp(0.4 + i * 0.2)}>
                     <Stack direction="row" spacing={2} alignItems="flex-start">
                       <Paper

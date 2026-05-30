@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import {
   Box,
   Container,
@@ -27,13 +27,14 @@ import Link from "next/link";
 import "react-toastify/dist/ReactToastify.css";
 import { FaFish } from "react-icons/fa";
 
+// Move static objects outside component
 const fishAnimation = {
   animate: {
     y: [0, -10, 0],
     transition: {
       duration: 3,
       repeat: Infinity,
-      ease: "easeInOut",
+      ease: [0.4, 0, 0.6, 1] as const,
     },
   },
 };
@@ -60,16 +61,16 @@ const Footer: React.FC = () => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  const handleSubmit = () => {
+  const handleSubmit = useCallback(() => {
     if (email.trim() === "") {
       toast.error("Please enter a valid email");
     } else {
       toast.success("Thank you for subscribing!");
       setEmail("");
     }
-  };
+  }, [email]);
 
-  const hoverIconStyle = {
+  const hoverIconStyle = useMemo(() => ({
     backgroundColor: isDark ? "#2a2a2a" : "#f3f0ff",
     transition: "all 0.3s ease",
     color: isDark ? "#fff" : "inherit",
@@ -77,7 +78,7 @@ const Footer: React.FC = () => {
       backgroundColor: "#8d65ff",
       color: "white",
     },
-  };
+  }), [isDark]);
 
   return (
     <Box
@@ -177,7 +178,7 @@ const Footer: React.FC = () => {
             textAlign: { xs: "center", md: "left" },
           }}
         >
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
             <Box
               display="flex"
               alignItems="center"
@@ -207,7 +208,7 @@ const Footer: React.FC = () => {
             </Box>
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               Our Services
             </Typography>
@@ -230,7 +231,7 @@ const Footer: React.FC = () => {
             ))}
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               Quick Links
             </Typography>
@@ -257,7 +258,7 @@ const Footer: React.FC = () => {
             ))}
           </Grid>
 
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid size={{xs: 12, sm: 6, md: 3}}>
             <Typography variant="h6" fontWeight="bold" gutterBottom>
               Contact Us
             </Typography>

@@ -38,7 +38,7 @@ const CounterSection: React.FC = () => {
           { label: "Countries", value: staticCounts.countries },
           { label: "Families", value: staticCounts.families },
         ].map((item, i) => (
-          <Grid item xs={6} md={3} key={i}>
+          <Grid size={{xs: 6, md: 3}} key={i}>
             <MotionBox
               initial={{ scale: 0.8, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}

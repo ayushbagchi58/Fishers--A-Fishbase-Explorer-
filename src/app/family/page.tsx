@@ -69,11 +69,7 @@ export default function FamiliesPage() {
         <Grid container spacing={3}>
           {list.map((family, index) => (
             <Grid
-              item
-              xs={12}   
-              sm={6}    
-              md={4}  
-              lg={3}    
+              size={{xs: 12, sm: 6, md: 4, lg: 3}}
               key={index}
               display="flex"
               justifyContent="center"

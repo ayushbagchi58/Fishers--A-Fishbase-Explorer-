@@ -42,7 +42,7 @@ const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 24 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.6, ease: "easeOut", delay },
+  transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] as const, delay },
 });
 
 const FishSVG = ({ size = 40, color = "#a855f7" }: { size?: number; color?: string }) => (
@@ -70,7 +70,7 @@ export default function FishDetailsPage() {
         
       
         const { data: fishData, error } = await supabase
-          .from<FishDetails>("fish_species") 
+          .from("fish_species") 
           .select(
             `
               id, common_name, scientific_name, species, genus, family,
@@ -296,7 +296,7 @@ export default function FishDetailsPage() {
                   ].map(
                     (row) =>
                       row.value && (
-                        <Grid key={row.label} item xs={12} sm="auto">
+                        <Grid key={row.label} size={{xs: 12, sm: "auto"}}>
                           <Chip
                             icon={<CheckCircleIcon />}
                             label={`${row.label}: ${row.value}`}
@@ -341,7 +341,7 @@ function Section({ title, text, delay = 0 }: { title: string; text: string | nul
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
-      transition={{ duration: 0.5, ease: "easeOut", delay }}
+      transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] as const, delay }}
       style={{ marginTop: 16 }}
     >
       <Typography variant="subtitle1" fontWeight={700} sx={{ mb: 0.5 }}>

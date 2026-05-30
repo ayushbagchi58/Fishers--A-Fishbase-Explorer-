@@ -187,7 +187,7 @@ const AboutSection: React.FC = () => {
                       desc: "Curated from authoritative sources to ensure reliable species records.",
                     },
                   ].map((item, i) => (
-                    <Grid xs={6} key={i}>
+                    <Grid size={{xs: 6}} key={i}>
                       <Box
                         sx={{
                           display: "flex",

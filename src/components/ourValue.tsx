@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const MotionBox = motion(Box);
 
-export default function FishSection(): JSX.Element {
+export default function FishSection(): React.JSX.Element {
   const [tab, setTab] = React.useState<number>(0);
 
   const handleTabChange = (_: React.SyntheticEvent, newValue: number) => {
@@ -26,7 +26,7 @@ export default function FishSection(): JSX.Element {
       <Container maxWidth="lg">
         <Grid container spacing={6} alignItems="center">
          
-          <Grid item size={{xs:12, md:6}}>
+          <Grid size={{xs:12, md:6}}>
             <MotionBox
               initial={{ opacity: 0, x: -40, scale: 0.98 }}
               whileInView={{ opacity: 1, x: 0, scale: 1 }}
@@ -76,7 +76,7 @@ export default function FishSection(): JSX.Element {
           </Grid>
 
        
-          <Grid item size={{xs:12, md:6}}>
+          <Grid size={{xs:12, md:6}}>
             <MotionBox
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

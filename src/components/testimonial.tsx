@@ -118,7 +118,7 @@ export default function FeedbackSection() {
        
         <Grid container spacing={4} alignItems="center" justifyContent="center">
          
-          <Grid item xs={12} md={3}>
+          <Grid size={{xs: 12, md: 3}}>
             <motion.div
               key={testimonial.image}
               initial={{ opacity: 0 }}
@@ -150,7 +150,7 @@ export default function FeedbackSection() {
           </Grid>
 
           
-          <Grid item xs={12} md={6}>
+          <Grid size={{xs: 12, md: 6}}>
             <motion.div
               key={testimonial.id}
               initial={{ opacity: 0, x: 40 }}
@@ -234,7 +234,7 @@ export default function FeedbackSection() {
           </Grid>
 
       
-          <Grid item xs={12} md={2}>
+          <Grid size={{xs: 12, md: 2}}>
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}

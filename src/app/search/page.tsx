@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState, AppDispatch } from "../../Redux/store/store";
 import { fetchFish } from "../../Redux/slice/fishSlice";
@@ -28,7 +28,7 @@ interface Fish {
   scientific_name: string;
   family: string;
   country: string;
-  image_url?: string;
+  image_url?: string | null;
 }
 
 export default function SearchPage() {
@@ -60,7 +60,7 @@ export default function SearchPage() {
     dispatch(fetchFish());
   }, [search, country, family, dispatch]);
 
-  const sortedItems = (() => {
+  const sortedItems = useMemo(() => {
     if (!items) return [];
     if (!sortOrder) return items;
     return [...items].sort((a: Fish, b: Fish) => {
@@ -70,7 +70,7 @@ export default function SearchPage() {
         ? nameA.localeCompare(nameB)
         : nameB.localeCompare(nameA);
     });
-  })();
+  }, [items, sortOrder]);
 
   return (
     <>
@@ -193,7 +193,7 @@ export default function SearchPage() {
         ) : (
           <Grid container spacing={8} justifyContent="center" alignItems="stretch">
             {sortedItems?.map((fish: Fish) => (
-              <Grid item xs={12} sm={6} md={4} key={fish.id}>
+              <Grid size={{xs: 12, sm: 6, md: 4}} key={fish.id}>
                 <motion.div
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
@@ -231,6 +231,7 @@ export default function SearchPage() {
                         "https://via.placeholder.com/320x200?text=No+Image"
                       }
                       alt={fish.common_name ?? "Fish"}
+                      loading="lazy"
                       sx={{
                         width: "100%",
                         height: "100%",

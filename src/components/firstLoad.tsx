@@ -5,7 +5,7 @@ import { Box, Typography, useTheme } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 
 
-const Fish: React.FC<{ size?: number | string } & React.SVGProps<SVGSVGElement>> = ({ size = 140, ...props }) => (
+const Fish: React.FC<{ size?: number | string }> = ({ size = 140 }) => (
   <motion.svg
     width={size}
     height={size}
@@ -17,7 +17,6 @@ const Fish: React.FC<{ size?: number | string } & React.SVGProps<SVGSVGElement>>
     animate={{ rotate: -360 }}
     transition={{ repeat: Infinity, ease: "linear", duration: 6 }}
     style={{ originX: "50%", originY: "50%" }}
-    {...props}
   >
 
     <defs>
@@ -73,23 +72,20 @@ const WaveProgress: React.FC<{ progress?: number }> = ({ progress = 0 }) => {
 };
 
 export type LoadingOverlayProps = {
- 
   visible?: boolean;
-  
   videoSrc?: string;
-
   onFinish?: () => void;
 };
 
-const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ visible, videoSrc = "/bg-placeholder.mp4", onFinish }) => {
+const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ visible, videoSrc = "/loadview.mp4", onFinish }) => {
   const [internalVisible, setInternalVisible] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [videoLoaded, setVideoLoaded] = useState(false);
 
-  
   useEffect(() => {
-    if (typeof visible === "boolean") return; 
+    if (typeof visible === "boolean") return;
     const start = Date.now();
-    const total = 3000; 
+    const total = 2000; // Reduced from 3000ms to 2000ms
     const raf = () => {
       const t = Date.now() - start;
       const p = Math.min(100, (t / total) * 100);
@@ -133,16 +129,19 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({ visible, videoSrc = "/b
         >
           
           <Box sx={{ position: "absolute", inset: 0, overflow: "hidden" }}>
-            <video
-              autoPlay
-              muted
-              loop
-              playsInline
-              style={{ width: "100%", height: "100%", objectFit: "cover" }}
-            >
-              <source src={videoSrc} type="video/mp4" />
-            </video>
-            
+            {show && (
+              <video
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                onLoadedData={() => setVideoLoaded(true)}
+                style={{ width: "100%", height: "100%", objectFit: "cover", opacity: videoLoaded ? 1 : 0, transition: "opacity 0.3s" }}
+              >
+                <source src={videoSrc} type="video/mp4" />
+              </video>
+            )}
             <Box sx={{ position: "absolute", inset: 0, bgcolor: "rgba(0,0,32,0.35)" }} />
           </Box>
 

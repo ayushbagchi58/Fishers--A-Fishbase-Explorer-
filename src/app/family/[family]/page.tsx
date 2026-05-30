@@ -21,7 +21,9 @@ import Banner from "@/components/familyDetailsBanner";
 export default function FamilyDetailsPage() {
   const params = useParams();
   const router = useRouter();
-  const familyName = params?.family ? decodeURIComponent(params.family) : "";
+  const familyName = params?.family 
+    ? decodeURIComponent(Array.isArray(params.family) ? params.family[0] : params.family) 
+    : "";
   const dispatch = useAppDispatch();
 
   const { species, loading, error } = useAppSelector((state) => state.fish);
@@ -78,7 +80,7 @@ export default function FamilyDetailsPage() {
                 justifyContent="center"
               >
                 {species.map((fish, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={fish.id}>
+                  <Grid size={{xs: 12, sm: 6, md: 4}} key={fish.id}>
                     <motion.div
                       initial={{ opacity: 0, y: 30 }}
                       whileInView={{ opacity: 1, y: 0 }}

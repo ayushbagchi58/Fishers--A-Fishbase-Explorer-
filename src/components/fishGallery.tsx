@@ -40,21 +40,21 @@ const fadeUp = (delay: number = 0) => ({
   viewport: { once: true },
 });
 
-export default function FishGallery() {
+function FishGallery() {
   const [selectedIndex, setSelectedIndex] = React.useState<number | null>(null);
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
-  const handleOpen = (index: number) => setSelectedIndex(index);
-  const handleClose = () => setSelectedIndex(null);
-  const handlePrev = () =>
+  const handleOpen = React.useCallback((index: number) => setSelectedIndex(index), []);
+  const handleClose = React.useCallback(() => setSelectedIndex(null), []);
+  const handlePrev = React.useCallback(() =>
     setSelectedIndex((prev) =>
       prev !== null ? (prev - 1 + images.length) % images.length : prev
-    );
-  const handleNext = () =>
+    ), []);
+  const handleNext = React.useCallback(() =>
     setSelectedIndex((prev) =>
       prev !== null ? (prev + 1) % images.length : prev
-    );
+    ), []);
 
   return (
     <Box
@@ -105,6 +105,7 @@ export default function FishGallery() {
                   src={item.src}
                   alt={item.name}
                   fill
+                  loading="lazy"
                   style={{
                     objectFit: "cover",
                     borderRadius: "12px",
@@ -254,3 +255,5 @@ export default function FishGallery() {
     </Box>
   );
 }
+
+export default React.memo(FishGallery);

@@ -17,13 +17,13 @@ import {
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 
-
+// Move animation objects outside component to prevent recreation
 const fadeUp = (delay = 0) => ({
   initial: { y: 24, opacity: 0 },
   whileInView: {
     y: 0,
     opacity: 1,
-    transition: { duration: 0.6, ease: "easeOut", delay },
+    transition: { duration: 0.6, ease: [0.4, 0, 0.2, 1] as const, delay },
   },
   viewport: { once: true, amount: 0.2 },
 });
@@ -33,14 +33,14 @@ const float = (distance = 10, duration = 3) => ({
     y: [0, -distance, 0],
     transition: {
       repeat: Infinity,
-      repeatType: "mirror",
+      repeatType: "mirror" as const,
       duration,
-      ease: "easeInOut",
+      ease: [0.4, 0, 0.6, 1] as const,
     },
   },
 });
 
-export default function HeroBanner() {
+function HeroBanner() {
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
 
@@ -239,7 +239,7 @@ export default function HeroBanner() {
                   initial={{ scale: 0.95, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.7, ease: "easeOut" }}
+                  transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] as const }}
                   sx={{
                     position: "relative",
                     width: "100%",
@@ -265,7 +265,7 @@ export default function HeroBanner() {
                   initial={{ x: 40, y: 40, opacity: 0 }}
                   whileInView={{ x: 0, y: 0, opacity: 1 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.7, ease: "easeOut", delay: 0.1 }}
+                  transition={{ duration: 0.7, ease: [0.4, 0, 0.2, 1] as const, delay: 0.1 }}
                   sx={{
                     position: "relative",
                     width: "100%",
@@ -378,3 +378,5 @@ export default function HeroBanner() {
     </ThemeProvider>
   );
 }
+
+export default React.memo(HeroBanner);
